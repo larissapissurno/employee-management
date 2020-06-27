@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 
 import Employee from '../models/Employee';
 import CreateEmployeeService from '../services/CreateEmployeeService';
+import UpdateEmployeeService from '../services/UpdateEmployeeService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const employeeRouter = Router();
@@ -34,7 +35,15 @@ employeeRouter.post('/', async (request, response) => {
 });
 
 employeeRouter.put('/:id', async (request, response) => {
-  return response.json({ put: true });
+  const { id } = request.params;
+  const updateEmployee = new UpdateEmployeeService();
+
+  const employee = await updateEmployee.execute({
+    id,
+    ...request.body,
+  });
+
+  return response.json(employee);
 });
 
 employeeRouter.delete('/:id', async (request, response) => {
