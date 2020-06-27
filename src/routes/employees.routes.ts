@@ -17,7 +17,12 @@ employeeRouter.get('/', async (request, response) => {
 });
 
 employeeRouter.get('/:id', async (request, response) => {
-  return response.json({ getById: true });
+  const { id } = request.params;
+  const employeeRepository = getRepository(Employee);
+
+  const employee = await employeeRepository.findOne(id);
+
+  return response.json(employee);
 });
 
 employeeRouter.post('/', async (request, response) => {
