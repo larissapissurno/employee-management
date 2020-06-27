@@ -1,14 +1,18 @@
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureValidUuid from '../middlewares/ensureValidUuid';
+
 import Employee from '../models/Employee';
 import CreateEmployeeService from '../services/CreateEmployeeService';
 import UpdateEmployeeService from '../services/UpdateEmployeeService';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import DeleteEmployee from '../services/DeleteEmployeeService';
 
 const employeeRouter = Router();
 
 employeeRouter.use(ensureAuthenticated);
+employeeRouter.use('/:id', ensureValidUuid);
 
 employeeRouter.get('/', async (request, response) => {
   const employeeRepository = getRepository(Employee);
@@ -47,7 +51,12 @@ employeeRouter.put('/:id', async (request, response) => {
 });
 
 employeeRouter.delete('/:id', async (request, response) => {
-  return response.json({ delete: true });
+  const { id } = request.params;
+  const deleteEmployee = new DeleteEmployee();
+
+  await deleteEmployee.execute(id);
+
+  return response.status(200).send();
 });
 
 export default employeeRouter;
