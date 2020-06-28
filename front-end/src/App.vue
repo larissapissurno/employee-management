@@ -31,4 +31,8 @@
     }
   }
 }
+
+button {
+  border-radius: 50px !important;
+}
 </style>
