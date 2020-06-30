@@ -1,12 +1,31 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <!-- <div >
+      <div v-if="loggedIn" id="nav">
+        <router-link to="/employees">Funcionários</router-link>
+        <router-link to="/feedbacks">Feedbacks</router-link>
+      </div>
+      <router-view />
+    </div>-->
     <router-view />
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component
+export default class App extends Vue {
+  get loggedIn(): boolean {
+    return this.$store.state.authentication.status.loggedIn;
+  }
+
+  get containerClass(): string {
+    return this.loggedIn ? 'container md-elevation-16' : '';
+  }
+}
+</script>
 
 <style src="./assets/themes/purple-orange-theme.scss" lang="scss"></style>
 
@@ -17,17 +36,25 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2b303f;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 #nav {
   padding: 30px;
 
   a {
-    font-weight: bold;
-    color: #2c3e50;
+    font-weight: 500;
+    font-size: 26px;
+    color: #cccccc;
+    padding-left: 20px;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #7743d9;
     }
   }
 }

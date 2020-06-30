@@ -1,20 +1,24 @@
+/* eslint-disable */
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'http://localhost:3333/',
+});
+
+api.interceptors.request.use((request) => {
+  const token = localStorage.getItem('user-token');
+
+  if (token) {
+    request.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return request;
 });
 
 api.interceptors.response.use(
-  (response) => {
-    const token = localStorage.getItem('user-token');
-
-    if (token) {
-      response.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response.data.message) {
       Swal.fire({

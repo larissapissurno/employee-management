@@ -26,9 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Swal from 'sweetalert2';
-import api from '../services/api';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Login extends Vue {

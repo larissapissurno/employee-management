@@ -1,5 +1,6 @@
-import api from '../services/api';
 import router from '../router';
+
+import SessionsService from '../services/sessions.service';
 
 interface Mutation {
   commit: Function;
@@ -11,7 +12,8 @@ interface Request {
 }
 
 interface User {
-  token: string;
+  id: string;
+  email: string;
 }
 
 interface State {
@@ -31,14 +33,15 @@ const authentication = {
     login: ({ commit }: Mutation, { email, password }: Request) => {
       commit('loginRequest');
 
-      api.post('/sessions', { email, password }).then(
+      SessionsService.create({ email, password }).then(
         (response) => {
           const { token, user } = response.data;
 
           commit('loginSuccess', user);
           localStorage.setItem('user-token', token);
+          localStorage.setItem('user', JSON.stringify(user));
 
-          router.push('/about');
+          router.push('/employees');
         },
         (error) => {
           commit('loginFailure', error);

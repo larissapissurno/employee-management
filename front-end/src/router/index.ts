@@ -12,9 +12,14 @@ const routes: Array<RouteConfig> = [
     component: Login,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
+    path: '/employees',
+    name: 'Employees',
+    component: () => import('../components/employee/EmployeeList.vue'),
+  },
+  {
+    path: '/employees/add',
+    name: 'Add Employee',
+    component: () => import('../components/employee/EmployeeCreation.vue'),
   },
 ];
 
@@ -25,13 +30,16 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/'];
+  const publicPages = ['/', '/login'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user-token');
 
   if (authRequired && !loggedIn) {
     return next('/');
+  }
+
+  if (publicPages.includes(to.path) && loggedIn) {
+    return next('/employees');
   }
 
   return next();
