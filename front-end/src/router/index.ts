@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
     name: 'Add Employee',
     component: () => import('../components/employee/EmployeeCreation.vue'),
   },
+  {
+    path: '/employees/:id',
+    name: 'Update Employee',
+    component: () => import('../components/employee/EmployeeUpdate.vue'),
+  },
 ];
 
 const router = new VueRouter({

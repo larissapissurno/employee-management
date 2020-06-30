@@ -9,15 +9,16 @@ export abstract class BaseService<T> {
   get = (filter?: any): Promise<any> =>
     api.get<any>(this.API_URL + this.prepareParams(filter));
 
-  getById = (id: number): Promise<AxiosResponse<T>> =>
+  getById = (id: string): Promise<AxiosResponse<T>> =>
     api.get<T>(`${this.API_URL}/${id}`);
 
   create = (model: any): Promise<AxiosResponse<T>> =>
     api.post<T>(this.API_URL, model);
 
-  delete = (id: number): Promise<void> => api.delete(`${this.API_URL}/${id}`);
+  delete = (id: string): Promise<void> => api.delete(`${this.API_URL}/${id}`);
 
-  update = (model: T): Promise<any> => api.put<any>(this.API_URL, model);
+  update = (id: string, model: T): Promise<any> =>
+    api.put<any>(`${this.API_URL}/${id}`, model);
 
   private prepareParams(filter: any): string {
     const quote = '?';

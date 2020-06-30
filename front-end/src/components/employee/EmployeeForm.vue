@@ -76,12 +76,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Emit } from 'vue-property-decorator';
+import { Emit, Prop } from 'vue-property-decorator';
 
 import Employee from './employee.interface';
 
 @Component
 export default class EmployeeForm extends Vue {
+  @Prop()
+  employeeData!: Employee;
+
   employee: Employee = {
     id: '',
     name: '',
@@ -99,6 +102,13 @@ export default class EmployeeForm extends Vue {
   handleSubmit(employee: Employee): void {
     this.submitted = true;
     console.log('handleSubmit');
+  }
+
+  mounted() {
+    console.log(this.employeeData);
+    if (this.employeeData) {
+      this.employee = this.employeeData;
+    }
   }
 }
 </script>

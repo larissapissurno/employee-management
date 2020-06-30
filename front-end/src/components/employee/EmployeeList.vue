@@ -12,12 +12,25 @@
           <md-table-head>Nome</md-table-head>
           <md-table-head>Email</md-table-head>
           <md-table-head>Cargo</md-table-head>
+          <md-table-head></md-table-head>
         </md-table-row>
 
         <md-table-row v-for="employee in employees" :key="employee.id">
           <md-table-cell>{{employee.name}}</md-table-cell>
           <md-table-cell>{{employee.email}}</md-table-cell>
           <md-table-cell>{{employee.role}}</md-table-cell>
+          <md-table-cell class="action-col">
+            <md-button
+              class="md-fab md-mini md-transparent"
+              :to="{ path: '/employees/' + employee.id}"
+            >
+              <md-icon>edit</md-icon>
+            </md-button>
+
+            <md-button class="md-fab md-mini md-transparent">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-table-cell>
         </md-table-row>
       </md-table>
     </div>
@@ -48,4 +61,16 @@ export default class EmployeeCreation extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.md-mini {
+  width: 30px;
+  height: 30px;
+}
+
+.md-transparent {
+  background-color: #fff !important;
+}
+
+.action-col {
+  text-align: right;
+}
 </style>

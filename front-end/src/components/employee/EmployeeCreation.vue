@@ -42,7 +42,7 @@ export default class EmployeeCreation extends Vue {
   handleFormSubmit(employee: Employee) {
     this.employee = employee;
 
-    EmployeeService.create(employee).then((response) => {
+    EmployeeService.create(employee).then(() => {
       Swal.fire({
         title: 'Sucesso!',
         text: 'Funcionário adicionado com sucesso!',
