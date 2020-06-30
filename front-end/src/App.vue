@@ -27,7 +27,7 @@ export default class App extends Vue {
 }
 </script>
 
-<style src="./assets/themes/purple-orange-theme.scss" lang="scss"></style>
+<style src="./assets/themes/purple-green-theme.scss" lang="scss"></style>
 
 <style lang="scss">
 #app {
@@ -56,6 +56,36 @@ export default class App extends Vue {
     &.router-link-exact-active {
       color: #7743d9;
     }
+  }
+}
+
+div.container {
+  border-radius: 50px;
+  background: #fff;
+  min-height: calc(100vh - 100px);
+  width: calc(100vw - 100px);
+  padding: 30px;
+  text-align: justify;
+}
+
+div.content {
+  padding: 20px;
+  text-align: justify;
+  h1 {
+    font-weight: 500;
+    color: #7743d9;
+    margin: 50px 0;
+
+    i {
+      color: #7743d9 !important;
+    }
+  }
+
+  div.content-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 

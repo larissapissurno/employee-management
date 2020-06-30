@@ -2,7 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h1>Funcionários</h1>
-      <md-button class="md-icon-button md-raised md-accent">
+      <md-button class="md-icon-button md-raised md-accent" to="/employees/add">
         <md-icon>add</md-icon>
       </md-button>
     </div>
@@ -29,13 +29,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import EmployeesService from '../../services/employees.service';
-
-interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
+import Employee from './employee.interface';
 
 @Component
 export default class EmployeeCreation extends Vue {
@@ -54,33 +48,4 @@ export default class EmployeeCreation extends Vue {
 </script>
 
 <style lang="scss" scoped>
-div.content {
-  padding: 20px;
-  text-align: justify;
-  h1 {
-    font-weight: 500;
-    color: #7743d9;
-    margin: 50px 0;
-
-    i {
-      color: #7743d9 !important;
-    }
-  }
-
-  div.content-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-div.container {
-  border-radius: 50px;
-  background: #fff;
-  min-height: calc(100vh - 100px);
-  width: calc(100vw - 100px);
-  padding: 20px;
-  text-align: justify;
-}
 </style>
