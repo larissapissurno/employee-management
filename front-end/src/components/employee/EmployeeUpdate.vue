@@ -33,7 +33,7 @@ export default class EmployeeUpdate extends Vue {
   handleFormSubmit(employee: Employee) {
     this.employee = employee;
 
-    EmployeeService.update(employee.id, employee).then((response) => {
+    EmployeeService.update(employee.id, employee).then(() => {
       Swal.fire({
         title: 'Sucesso!',
         text: 'Funcionário editado com sucesso!',

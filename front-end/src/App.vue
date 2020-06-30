@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <!-- <div >
-      <div v-if="loggedIn" id="nav">
+    <div>
+      <div v-if="loggedIn" id="nav" class="md-elevation-6">
         <router-link to="/employees">Funcionários</router-link>
-        <router-link to="/feedbacks">Feedbacks</router-link>
+
+        <md-button @click="handleLogout">
+          Sair
+          <md-icon>exit_to_app</md-icon>
+        </md-button>
       </div>
       <router-view />
-    </div>-->
-    <router-view />
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,13 @@ export default class App extends Vue {
 
   get containerClass(): string {
     return this.loggedIn ? 'container md-elevation-16' : '';
+  }
+
+  handleLogout() {
+    console.log('logout?');
+
+    const { dispatch } = this.$store;
+    dispatch('authentication/logout');
   }
 }
 </script>
@@ -45,24 +55,40 @@ export default class App extends Vue {
 }
 
 #nav {
-  padding: 30px;
+  text-align: justify;
+  background: #fff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
 
   a {
     font-weight: 500;
-    font-size: 26px;
+    font-size: 20px;
     color: #cccccc;
     padding-left: 20px;
 
     &.router-link-exact-active {
-      color: #7743d9;
+      color: #2b303f;
     }
+  }
+
+  button {
+    float: right;
+    display: flex;
+    align-items: center;
   }
 }
 
 div.container {
   border-radius: 50px;
   background: #fff;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 200px);
   width: calc(100vw - 100px);
   padding: 30px;
   text-align: justify;

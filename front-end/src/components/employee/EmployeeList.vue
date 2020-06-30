@@ -7,7 +7,7 @@
       </md-button>
     </div>
     <div class="container md-elevation-24">
-      <md-table>
+      <md-table v-if="employees.length">
         <md-table-row>
           <md-table-head>Nome</md-table-head>
           <md-table-head>Email</md-table-head>
@@ -27,12 +27,17 @@
               <md-icon>edit</md-icon>
             </md-button>
 
-            <md-button class="md-fab md-mini md-transparent">
+            <md-button class="md-fab md-mini md-transparent" @click="handleDelete(employee.id)">
               <md-icon>delete</md-icon>
             </md-button>
           </md-table-cell>
         </md-table-row>
       </md-table>
+
+      <div class="no-results" v-if="!employees.length">
+        <img src="../../assets/no-results.gif" alt />
+        <p>Nenhum funcionário(a) foi encontrado 😶</p>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +45,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import Swal from 'sweetalert2';
 
 import EmployeesService from '../../services/employees.service';
 import Employee from './employee.interface';
@@ -47,6 +53,35 @@ import Employee from './employee.interface';
 @Component
 export default class EmployeeCreation extends Vue {
   employees: Employee[] = [];
+
+  // eslint-disable-next-line class-methods-use-this
+  handleDelete(id: string) {
+    Swal.fire({
+      title: 'Você tem certeza que deseja remover?',
+      text: 'Esta ação não poderá ser revertida!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        EmployeesService.delete(id).then(() => {
+          Swal.fire(
+            'Removido!',
+            'Funcionário removido com sucesso.',
+            'success',
+          );
+
+          const index = this.employees.findIndex(
+            (employee) => employee.id === id,
+          );
+          this.employees.splice(index, 1);
+        });
+      }
+    });
+  }
 
   mounted() {
     this.listEmployees();
@@ -72,5 +107,11 @@ export default class EmployeeCreation extends Vue {
 
 .action-col {
   text-align: right;
+}
+
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

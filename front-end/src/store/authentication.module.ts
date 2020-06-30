@@ -48,6 +48,10 @@ const authentication = {
         },
       );
     },
+    logout: ({ commit }: Mutation) => {
+      commit('logout');
+      router.push('/');
+    },
   },
   mutations: {
     loginRequest(state: State) {
@@ -64,6 +68,8 @@ const authentication = {
     logout(state: State) {
       state.status = {};
       state.user = null;
+      localStorage.removeItem('user');
+      localStorage.removeItem('user-token');
     },
   },
 };
