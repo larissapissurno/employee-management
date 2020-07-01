@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="content-header">
-      <h1>Funcionários</h1>
+      <h1>Lista de Funcionários</h1>
       <md-button class="md-icon-button md-raised md-accent" to="/employees/add">
         <md-icon>add</md-icon>
       </md-button>
