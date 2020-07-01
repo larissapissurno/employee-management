@@ -3,7 +3,7 @@
   "host": "db",
   "port": 5432,
   "username": "postgres",
-  "password": "docker",
+  "password": "postgres",
   "database": "employee_management",
   "entities": ["./src/models/*.ts"],
   "migrations": ["./src/database/migrations/*.ts"],
