@@ -39,6 +39,9 @@ export default class CreateUsers1593256856713 implements MigrationInterface {
         ],
       }),
     );
+    await queryRunner.query(
+      "INSERT INTO users VALUES (DEFAULT, 'Admin', 'admin@admin', 'admin', DEFAULT, DEFAULT)",
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

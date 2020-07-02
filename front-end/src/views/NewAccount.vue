@@ -1,8 +1,14 @@
 <template>
   <div class="container">
     <div class="login-box">
-      <h1>login</h1>
+      <h1>nova conta</h1>
       <form v-on:submit.prevent="handleSubmit($event)">
+        <md-field :class="submitted && !name ? 'md-invalid' : ''">
+          <label>Nome</label>
+          <md-input v-model="name" required></md-input>
+          <span class="md-error">Campo obrigatório</span>
+        </md-field>
+
         <md-field :class="submitted && !email ? 'md-invalid' : ''">
           <label>E-mail</label>
           <md-input type="email" v-model="email" required></md-input>
@@ -15,15 +21,21 @@
           <span class="md-error">Campo obrigatório</span>
         </md-field>
 
+        <md-field :class="confirmPasswordValidClass">
+          <label>Confirmar senha</label>
+          <md-input type="password" v-model="confirmPassword" required></md-input>
+          <span class="md-error">{{confirmPasswordValidMessage}}</span>
+        </md-field>
+
         <md-button
           type="submit"
-          class="md-raised md-primary md-layout-item md-size-100"
-          >Entrar
+          class="md-raised md-primary md-layout-item md-size-100">
+          Entrar
         </md-button>
         <md-button
-          to="/signup"
+          to="/login"
           class="md-primary md-layout-item md-size-100">
-          Criar conta
+          Cancelar
         </md-button>
       </form>
     </div>
@@ -32,21 +44,62 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Swal from 'sweetalert2';
+
+import UsersService from '../services/users.service';
 
 @Component
 export default class Login extends Vue {
+  name = '';
+
   email = '';
 
   password = '';
 
+  confirmPassword = '';
+
   submitted = false;
+
+  get confirmPasswordValidClass() {
+    return this.submitted
+      && (!this.confirmPassword || this.confirmPassword !== this.password)
+      ? 'md-invalid'
+      : '';
+  }
+
+  get confirmPasswordValidMessage() {
+    if (this.confirmPassword !== this.password) {
+      return 'Confirme a senha corretamente';
+    }
+    return 'Campo obrigatório';
+  }
 
   handleSubmit(): void {
     this.submitted = true;
-    const { email, password } = this;
-    const { dispatch } = this.$store;
-    if (email && password) {
-      dispatch('authentication/login', { email, password });
+    const {
+      name,
+      email,
+      password,
+      confirmPassword,
+    } = this;
+
+    if (email && password && confirmPassword === password) {
+      const user = {
+        name,
+        email,
+        password,
+        confirmPassword,
+      };
+
+      UsersService.create(user).then((result) => {
+        if (result) {
+          Swal.fire({
+            title: 'Sucesso!',
+            text: 'Dados salvos com sucesso!',
+            icon: 'success',
+          }).then(() => this.$router.push('/login'));
+        }
+      });
     }
   }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Login from '../views/Login.vue';
+import NewAccount from '../views/NewAccount.vue';
 
 Vue.use(VueRouter);
 
@@ -10,6 +11,11 @@ const routes: Array<RouteConfig> = [
     alias: '/login',
     name: 'Home',
     component: Login,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: NewAccount,
   },
   {
     path: '/employees',
@@ -35,7 +41,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login'];
+  const publicPages = ['/', '/login', '/signup'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user-token');
 
